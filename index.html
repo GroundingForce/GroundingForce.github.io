@@ -189,44 +189,54 @@
         <h2>Experiments</h2>
       </div>
 
-      <!-- ---------- Simulation ---------- -->
+      <!-- ---------- RoboCasa ---------- -->
       <div class="subsec">
         <div class="subsec-head">
-          <span class="label">Simulation</span>
-          <h3>Every base VLA improves, on both benchmarks</h3>
+          <span class="label">Simulation &middot; RoboCasa</span>
+          <h3>All four backbones improve on 24 single-arm tasks</h3>
         </div>
         <div class="prose">
           <p>
-            Grounding Force improves the average success rate of <b>every base VLA on both benchmarks</b>, by 2.17%
-            to 7.26% absolute on RoboCasa and 1.34% to 5.39% on RoboTwin 2.0.
+            Grounding Force improves every base VLA, by <b>+2.17%</b> to <b>+7.26%</b> absolute. The gains
+            concentrate where contact decides the outcome.
           </p>
         </div>
 
         <figure class="framed" style="margin-top: 2.5rem;">
-                <div class="scroller">
-                  <img src="./static/images/table_robocasa.png"
-                    alt="Table of average success rate on RoboCasa, per category, for four base VLAs with and without Grounding Force.">
-                </div>
-                <figcaption>
-                  <b>Results on RoboCasa.</b> Average success rate (%) over the 24 tasks and per category. Bold marks the
-                  better of each base VLA and its GF version, and parentheses give the change. The gains are largest where
-                  contact decides the outcome &mdash; for every base VLA, the largest category gain falls on
-                  <i>Buttons</i>, <i>Insertion</i> or <i>Doors</i>, reaching +14.77% for &pi;<sub>0</sub> on pressing buttons.
-                </figcaption>
-              </figure>
+          <div class="scroller">
+            <img src="./static/images/table_robocasa.png"
+              alt="Table of average success rate on RoboCasa, per category, for four base VLAs with and without Grounding Force.">
+          </div>
+          <figcaption>
+            <b>Results on RoboCasa.</b> Average success rate (%) over the 24 tasks and per category. Bold marks the
+            better of each base VLA and its GF version, and parentheses give the change.
+          </figcaption>
+        </figure>
+      </div>
 
-        <figure class="framed">
-                <div class="scroller">
-                  <img src="./static/images/table_robotwin.png"
-                    alt="Table of average success rate on RoboTwin 2.0, per category, for three base VLAs with and without Grounding Force.">
-                </div>
-                <figcaption>
-                  <b>Results on RoboTwin 2.0.</b> Average success rate (%) over the 18 bimanual tasks and per category, on
-                  held-out scenes, so the gains do not come only from fitting the training scenes. The largest category gain
-                  of &pi;<sub>0.5</sub> is +11.83% on <i>Object arrangement</i>, where blocks and bowls must be stacked or
-                  set down in place.
-                </figcaption>
-              </figure>
+      <!-- ---------- RoboTwin 2.0 ---------- -->
+      <div class="subsec">
+        <div class="subsec-head">
+          <span class="label">Simulation &middot; RoboTwin 2.0</span>
+          <h3>The gains carry to bimanual tasks and held-out scenes</h3>
+        </div>
+        <div class="prose">
+          <p>
+            On 18 bimanual tasks, evaluated on scenes held out from training, all three backbones improve by
+            <b>+1.34%</b> to <b>+5.39%</b> &mdash; so the gains do not come only from fitting the training scenes.
+          </p>
+        </div>
+
+        <figure class="framed" style="margin-top: 2.5rem;">
+          <div class="scroller">
+            <img src="./static/images/table_robotwin.png"
+              alt="Table of average success rate on RoboTwin 2.0, per category, for three base VLAs with and without Grounding Force.">
+          </div>
+          <figcaption>
+            <b>Results on RoboTwin 2.0.</b> Average success rate (%) over the 18 bimanual tasks and per category,
+            with the notation of the RoboCasa table. GR00T N1.6 is not reported on this benchmark.
+          </figcaption>
+        </figure>
       </div>
 
       <!-- ---------- Rollouts ---------- -->
