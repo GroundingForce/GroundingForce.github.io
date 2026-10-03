@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Grounding Force: a contact point with a force vector pressing into a surface. -->
+  <rect width="64" height="64" rx="12" fill="#ffffff"/>
+  <rect x="8" y="42" width="48" height="6" rx="3" fill="#8a367e"/>
+  <circle cx="32" cy="38" r="12" fill="#d946ef" opacity="0.22"/>
+  <circle cx="32" cy="38" r="6" fill="#d946ef"/>
+  <path d="M32 10 V28 M24 22 L32 30 L40 22" stroke="#8a367e" stroke-width="5"
+        stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

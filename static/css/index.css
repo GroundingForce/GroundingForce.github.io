@@ -1,0 +1,490 @@
+/* ============================================================
+   Grounding Force — project page
+   Palette sampled from the paper's own figures, so the page and
+   the figures agree:
+     #d946ef  magenta of the "+ GF" bars             (accent)
+     #8a367e  deep purple of the figure panel labels (headings, links)
+     #ddabeb  light purple of the figure panel borders
+   The figures are drawn on white, so the page commits to a light
+   scheme rather than offering a dark one that would frame every
+   figure in a white box.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  --accent: #d946ef;
+  --accent-deep: #8a367e;
+  --accent-soft: #ddabeb;
+  --accent-wash: #fdf6fe;
+
+  --ink: #17171c;
+  --ink-2: #3f4049;
+  --muted: #6c6f78;
+  --rule: #e8e5ec;
+  --surface: #ffffff;
+  --surface-2: #faf9fb;
+
+  --measure: 50rem;      /* text column   */
+  --wide: 68rem;         /* figure column */
+  --nav-h: 3.25rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink-2);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video { max-width: 100%; }
+
+a {
+  color: var(--accent-deep);
+  text-decoration-color: var(--accent-soft);
+  text-underline-offset: 2px;
+}
+
+a:hover { text-decoration-color: var(--accent); }
+
+/* ---------- Layout ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.prose {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+section { padding-block: 3.5rem; }
+
+section + section { padding-top: 0; }
+
+.band {
+  background: var(--surface-2);
+  border-block: 1px solid var(--rule);
+  margin-top: 3.5rem;
+}
+
+/* ---------- Nav ---------- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: saturate(1.6) blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-brand {
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.25rem;
+  margin-left: auto;
+}
+
+.nav-links a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  padding-block: 0.25rem;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover { color: var(--accent-deep); }
+
+.nav-links a.is-current {
+  color: var(--accent-deep);
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  text-align: center;
+  padding-block: 3.5rem 2.5rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--accent-soft);
+  border-radius: 999px;
+  background: var(--accent-wash);
+  color: var(--accent-deep);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 1.25rem 0 0;
+  font-size: clamp(2rem, 5.2vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.hero h1 .accent { color: var(--accent-deep); }
+
+.hero .lede {
+  margin: 0.9rem auto 0;
+  max-width: 44rem;
+  font-size: clamp(1.02rem, 2.1vw, 1.22rem);
+  line-height: 1.45;
+  font-weight: 450;
+  color: var(--ink-2);
+}
+
+.byline {
+  margin-top: 1.6rem;
+  font-size: 0.98rem;
+  color: var(--ink-2);
+}
+
+.byline .venue {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ---------- Link buttons ---------- */
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+}
+
+.btn svg { width: 1em; height: 1em; }
+
+/* A link that is not live yet: visibly inert instead of a dead link. */
+.btn.is-pending,
+.btn.is-pending:hover {
+  background: #fff;
+  border-color: var(--rule);
+  color: var(--muted);
+  cursor: default;
+}
+
+/* ---------- Headings ---------- */
+
+/* Top-level sections are named plainly -- Abstract, Method, Experiments --
+   and carry the page's heaviest heading, so the reader can place themselves
+   at a glance. The accent rule under the name does the emphasising; the
+   descriptive line sits below in muted text. */
+.section-head {
+  text-align: center;
+  margin-bottom: 2.25rem;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: clamp(1.95rem, 4.2vw, 2.65rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.section-head h2::after {
+  content: "";
+  display: block;
+  width: 3.25rem;
+  height: 3px;
+  margin: 0.9rem auto 0;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* Subsections inside Experiments: a small accent label, then the claim. */
+.subsec {
+  margin-top: 3.25rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.subsec:first-of-type {
+  margin-top: 2.25rem;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Line the subsection heading up with the text column, not with the wider
+   figure column, so its left edge matches the paragraph under it. */
+.subsec-head {
+  max-width: var(--measure);
+  margin: 0 auto 1.35rem;
+}
+
+.subsec-head .label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.subsec-head h3 {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.8vw, 1.6rem);
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+h3.sub {
+  margin: 0 0 0.75rem;
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+p { margin: 0 0 1.1rem; }
+
+.prose p:last-child { margin-bottom: 0; }
+
+b, strong { color: var(--ink); font-weight: 650; }
+
+/* ---------- Figures ---------- */
+
+figure {
+  margin: 0;
+}
+
+figure + figure { margin-top: 2.5rem; }
+
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Figures that are screenshots of paper tables/charts read better with a
+   hairline, since their own white background otherwise bleeds into the page. */
+figure.framed img {
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+
+figcaption {
+  margin-top: 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+figcaption b { color: var(--ink-2); }
+
+/* Tables and wide charts keep their own sideways scroll on a phone rather
+   than shrinking the numbers past reading size. */
+.scroller {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+.scroller > img { min-width: 40rem; }
+
+.note {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 3px solid var(--accent-soft);
+  background: var(--accent-wash);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.92rem;
+  color: var(--ink-2);
+}
+
+.note p:last-child { margin-bottom: 0; }
+
+/* ---------- Rollout player ---------- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.tab {
+  appearance: none;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 650;
+  min-height: 2.6rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.tab:hover { border-color: var(--accent-soft); color: var(--accent-deep); }
+
+.tab[aria-selected="true"] {
+  background: var(--accent-wash);
+  border-color: var(--accent-soft);
+  color: var(--accent-deep);
+}
+
+.tab sub { font-size: 0.78em; }
+
+.tab:focus-visible,
+.btn:focus-visible,
+.nav-links a:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+.panel-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.panel-meta .task { color: var(--ink); font-weight: 650; }
+
+/* The clip is 1600x704 and its force/contact panels sit hard against the
+   bottom edge, where the browser's own control bar would cover them. The box
+   is given a little more height than the footage and the video is pinned to
+   the top, so the controls overlay white space instead of the heatmaps. */
+.stage video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1600 / 790;
+  object-fit: contain;
+  object-position: top;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+
+/* ---------- BibTeX ---------- */
+
+pre {
+  margin: 0;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+/* ---------- Footer ---------- */
+
+.footer {
+  margin-top: 3.5rem;
+  padding-block: 2.25rem 2.75rem;
+  border-top: 1px solid var(--rule);
+  background: var(--surface-2);
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.footer p { margin: 0 0 0.4rem; }
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 48rem) {
+  section { padding-block: 2.5rem; }
+  .band { margin-top: 2.5rem; }
+  .hero { padding-block: 2.5rem 1.75rem; }
+  .nav-brand { display: none; }
+  .nav-links { margin-left: 0; }
+  .tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tab { width: 100%; padding-inline: 0.5rem; }
+  .scroller > img { min-width: 34rem; }
+}

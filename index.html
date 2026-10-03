@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grounding Force: Image-Aligned Contact and Force Prediction for Vision-Language-Action Models</title>
+  <meta name="description"
+    content="Grounding Force trains a vision-language-action model to predict the contact and force its next action will produce, as maps on the wrist-camera image. No force or tactile sensor at test time.">
+  <meta name="keywords" content="Vision-Language-Action, Robot Manipulation, Contact, Force, VLA">
+
+  <!-- No analytics while the submission is under double-blind review. -->
+
+  <link rel="icon" href="./static/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;650;700;750;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/index.css?v=6">
+  <script src="./static/js/app.js?v=6" defer></script>
+</head>
+
+<body>
+
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="nav-brand" href="#top">Grounding Force</a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#experiments">Experiments</a>
+        <a href="#rollouts">Rollouts</a>
+        <a href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <header class="hero wrap" id="top">
+    <span class="eyebrow">Under double-blind review</span>
+
+    <h1><span class="accent">Grounding Force</span><br>
+      Image-Aligned Contact and Force Prediction<br>for Vision-Language-Action Models</h1>
+
+    <p class="lede">
+      A VLA that predicts <b>where its next action makes contact and how hard it pushes</b> &mdash;
+      learned in simulation, and needing no force or tactile sensor at test time.
+    </p>
+
+    <p class="byline">
+      Anonymous Authors
+      <span class="venue">Under review as a conference paper at ICLR 2027</span>
+    </p>
+
+    <div class="links">
+      <!-- To activate: make this an <a href="…"> and drop "is-pending". -->
+      <span class="btn is-pending">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <path d="M9 1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5L9 1zm0 1.5L11.5 5H9V2.5z" />
+        </svg>
+        Paper (OpenReview)
+      </span>
+      <span class="btn is-pending">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+        </svg>
+        Code (coming soon)
+      </span>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       TEASER (Fig. 1)
+       ============================================================ -->
+  <section style="padding-top: 1rem;">
+    <div class="wrap">
+      <figure>
+        <img src="./static/images/teaser.png"
+          alt="Four panels: a failed bowl stack caused by wrong contact and force; the contact and force maps on the wrist image; the grounding queries inside a VLA; and the success-rate gains on four benchmarks.">
+        <figcaption>
+          <b>(a)</b> A base VLA stacking bowls: the rim of the held bowl hits the edge of the stack, and the policy
+          keeps pressing down until a bowl is pushed out and flips over.
+          <b>(b)</b> Grounding Force learns to predict where contact occurs and how force acts, as a contact map and
+          one signed force map per axis over the wrist image.
+          <b>(c)</b> Grounding query tokens pass through the VLA with its inputs, and a decoder turns their features
+          into the maps during training only.
+          <b>(d)</b> Success rate with and without Grounding Force.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABSTRACT
+       ============================================================ -->
+  <section id="abstract">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Abstract</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Vision-language-action (VLA) models inherit semantic understanding from pretrained vision-language models
+          and map observations and instructions directly to robot actions. The success of an action, however, also
+          depends on the physical interaction, where the robot makes contact with an object and how it applies force.
+          A VLA trained only to imitate actions never represents this physical interaction explicitly. Prior work
+          trains the VLA to predict targets that describe the scene rather than the interaction, or measures the
+          interaction with force or tactile sensors, which most robots and datasets lack.
+        </p>
+        <p>
+          We present <b>Grounding Force (GF)</b>, which trains a VLA to predict, alongside its next action, the
+          contact and force that action will produce, as a contact map and force maps on the wrist-camera image.
+          This supervision is used only in training, so the policy needs no force or tactile sensor at test time.
+          Across four backbones (&pi;<sub>0</sub>, &pi;<sub>0.5</sub>, GR00T N1.6, and OpenVLA-OFT) on RoboCasa and
+          RoboTwin 2.0, Grounding Force consistently improves the base VLAs, by up to <b>7.3%</b> in success rate,
+          and helps more than predicting future images, depth, or semantics. With pseudo-labels from a labeler
+          trained only in simulation, it also improves &pi;<sub>0.5</sub> by <b>13.0%</b> on both real single-arm and
+          bimanual robots. These results indicate that predicting the physical interaction in the image frame,
+          without any sensor at test time, is an effective supervision signal for VLAs.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       METHOD (Fig. 2)
+       ============================================================ -->
+  <section class="band" id="method">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Method</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Contact and force could be predicted as 3D points and vectors in the world frame. We instead express them
+          as maps over the <b>wrist-camera image</b>, the view among the policy's inputs that shows the gripper and
+          the objects it manipulates. A <b>contact map</b> marks where the interaction occurs, and <b>three signed
+            force maps</b> give the <i>x</i>, <i>y</i> and <i>z</i> components of the contact force there.
+        </p>
+        <p>
+          Two things follow from that choice. Aligning the target with the patch grid lets it build on the VLM's
+          visual representation, and a target defined in the camera's own view needs neither per-contact depth nor
+          the camera pose &mdash; both of which a world-frame target would require, and neither of which the model is
+          given. Labels are computed automatically by replaying each demonstration in simulation, so no sensor is
+          involved at any point.
+        </p>
+      </div>
+
+      <figure style="margin-top: 2.5rem;">
+        <img src="./static/images/architecture.png"
+          alt="Three diagrams showing how the grounding queries join the token sequence in the pi-series, OpenVLA-OFT and GR00T N1.6 backbones.">
+        <figcaption>
+          <b>How the grounding queries are integrated into each base VLA.</b> The queries (magenta) join the token
+          sequence of the VLM, and a lightweight decoder turns their outputs into the maps during training only.
+          <b>Left:</b> in &pi;<sub>0</sub> and &pi;<sub>0.5</sub> the action expert attends to the VLM prefix,
+          queries included. <b>Middle:</b> in OpenVLA-OFT the action tokens pass through the same VLM, and the action
+          head decodes them. <b>Right:</b> in GR00T N1.6 the query outputs join the features the diffusion
+          transformer conditions on.
+        </figcaption>
+      </figure>
+
+      <div class="prose" style="margin-top: 2.5rem;">
+        <p>
+          A set of <b>grounding query tokens</b> is appended to the input of the VLM backbone. Through attention they
+          gather what is needed to predict the maps into a few tokens. Their output is read both by the heatmap
+          decoder, which produces the maps, and by the action head &mdash; so actions are decoded from a
+          representation trained to encode the interaction. The queries never attend to action tokens, and the
+          decoder sees only the query outputs, never the image tokens.
+        </p>
+        <div class="note">
+          <p>At deployment the heatmap decoder is discarded and the policy runs with no force or tactile input. The
+            nine query tokens are the only addition to the base VLA, and they add about <b>1% to inference
+              time</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERIMENTS — simulation tables, rollouts, ablations, real world
+       ============================================================ -->
+  <section id="experiments">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Experiments</h2>
+      </div>
+
+      <!-- ---------- Simulation ---------- -->
+      <div class="subsec">
+        <div class="subsec-head">
+          <span class="label">Simulation</span>
+          <h3>Every base VLA improves, on both benchmarks</h3>
+        </div>
+        <div class="prose">
+          <p>
+            Grounding Force improves the average success rate of <b>every base VLA on both benchmarks</b>, by 2.17%
+            to 7.26% absolute on RoboCasa and 1.34% to 5.39% on RoboTwin 2.0.
+          </p>
+        </div>
+
+        <figure class="framed" style="margin-top: 2.5rem;">
+                <div class="scroller">
+                  <img src="./static/images/table_robocasa.png"
+                    alt="Table of average success rate on RoboCasa, per category, for four base VLAs with and without Grounding Force.">
+                </div>
+                <figcaption>
+                  <b>Results on RoboCasa.</b> Average success rate (%) over the 24 tasks and per category. Bold marks the
+                  better of each base VLA and its GF version, and parentheses give the change. The gains are largest where
+                  contact decides the outcome &mdash; for every base VLA, the largest category gain falls on
+                  <i>Buttons</i>, <i>Insertion</i> or <i>Doors</i>, reaching +14.77% for &pi;<sub>0</sub> on pressing buttons.
+                </figcaption>
+              </figure>
+
+        <figure class="framed">
+                <div class="scroller">
+                  <img src="./static/images/table_robotwin.png"
+                    alt="Table of average success rate on RoboTwin 2.0, per category, for three base VLAs with and without Grounding Force.">
+                </div>
+                <figcaption>
+                  <b>Results on RoboTwin 2.0.</b> Average success rate (%) over the 18 bimanual tasks and per category, on
+                  held-out scenes, so the gains do not come only from fitting the training scenes. The largest category gain
+                  of &pi;<sub>0.5</sub> is +11.83% on <i>Object arrangement</i>, where blocks and bowls must be stacked or
+                  set down in place.
+                </figcaption>
+              </figure>
+      </div>
+
+      <!-- ---------- Rollouts ---------- -->
+      <div class="subsec" id="rollouts">
+        <div class="subsec-head">
+          <span class="label">Rollouts</span>
+          <h3>Base VLA vs. + Grounding Force on RoboCasa</h3>
+        </div>
+        <div class="prose" style="margin-bottom: 2rem;">
+          <p>
+            Below are rollouts of the base VLA (left) and the same model with Grounding Force (right) on the same
+            RoboCasa task. Under the right video, we show the model's predicted force maps (<i>x</i>, <i>y</i>,
+            <i>z</i>) and contact map at each step.
+          </p>
+          <p>Both videos play at 1&times; and start in sync.</p>
+        </div>
+
+        <div data-player>
+          <div class="tabs" role="tablist" aria-label="Choose a VLA backbone">
+            <button class="tab" type="button" role="tab" id="tab-pi0" aria-controls="panel-pi0" aria-selected="true"
+              tabindex="0">&pi;<sub>0</sub></button>
+            <button class="tab" type="button" role="tab" id="tab-pi05" aria-controls="panel-pi05" aria-selected="false"
+              tabindex="-1">&pi;<sub>0.5</sub></button>
+            <button class="tab" type="button" role="tab" id="tab-gr00t" aria-controls="panel-gr00t"
+              aria-selected="false" tabindex="-1">GR00T N1.6</button>
+            <button class="tab" type="button" role="tab" id="tab-oft" aria-controls="panel-oft" aria-selected="false"
+              tabindex="-1">OpenVLA-OFT</button>
+          </div>
+
+          <div class="stage">
+            <div role="tabpanel" id="panel-pi0" aria-labelledby="tab-pi0">
+              <div class="panel-meta"><span class="task">PnPMicrowaveToCounter</span><span>RoboCasa &middot; 18 s</span>
+              </div>
+              <video muted loop playsinline controls preload="none" poster="./static/images/posters/pi0_poster.webp"
+                data-src="./static/videos/pi0_comparison.mp4"
+                aria-label="Pi-zero base on the left and plus Grounding Force on the right, with the predicted force and contact maps."></video>
+            </div>
+
+            <div role="tabpanel" id="panel-pi05" aria-labelledby="tab-pi05" hidden>
+              <div class="panel-meta"><span class="task">TurnOffStove</span><span>RoboCasa &middot; 14 s</span></div>
+              <video muted loop playsinline controls preload="none" poster="./static/images/posters/pi05_poster.webp"
+                data-src="./static/videos/pi05_comparison.mp4"
+                aria-label="Pi-zero-point-five base on the left and plus Grounding Force on the right, with the predicted force and contact maps."></video>
+            </div>
+
+            <div role="tabpanel" id="panel-gr00t" aria-labelledby="tab-gr00t" hidden>
+              <div class="panel-meta"><span class="task">CoffeeSetupMug</span><span>RoboCasa &middot; 13 s</span></div>
+              <video muted loop playsinline controls preload="none" poster="./static/images/posters/gr00t_poster.webp"
+                data-src="./static/videos/gr00t_comparison.mp4"
+                aria-label="GR00T N1.6 base on the left and plus Grounding Force on the right, with the predicted force and contact maps."></video>
+            </div>
+
+            <div role="tabpanel" id="panel-oft" aria-labelledby="tab-oft" hidden>
+              <div class="panel-meta"><span class="task">OpenDrawer</span><span>RoboCasa &middot; 13 s</span></div>
+              <video muted loop playsinline controls preload="none"
+                poster="./static/images/posters/openvla_oft_poster.webp"
+                data-src="./static/videos/openvla_oft_comparison.mp4"
+                aria-label="OpenVLA-OFT base on the left and plus Grounding Force on the right, with the predicted force and contact maps."></video>
+            </div>
+          </div>
+
+          <noscript>
+            <p class="panel-meta" style="margin-top: 1rem;">
+              With JavaScript off, open a clip directly:
+              <a href="./static/videos/pi0_comparison.mp4">&pi;<sub>0</sub></a>,
+              <a href="./static/videos/pi05_comparison.mp4">&pi;<sub>0.5</sub></a>,
+              <a href="./static/videos/gr00t_comparison.mp4">GR00T N1.6</a>,
+              <a href="./static/videos/openvla_oft_comparison.mp4">OpenVLA-OFT</a>.
+            </p>
+          </noscript>
+        </div>
+
+      </div>
+
+      <!-- ---------- Ablations ---------- -->
+      <div class="subsec" id="ablations">
+        <div class="subsec-head">
+          <span class="label">Ablations</span>
+          <h3>What the target has to be</h3>
+        </div>
+
+        <figure class="framed">
+                <div class="scroller">
+                  <img src="./static/images/ablation_target.png"
+                    alt="Bar chart comparing prediction targets: pixels, SigLIP features, depth, semantics, contact alone, and contact plus force.">
+                </div>
+                <figcaption>
+                  <b>What to predict.</b> Average success rate (%) on RoboCasa over the 24 tasks, with the change from
+                  &pi;<sub>0</sub> under each value. Predicting contact and force gains 5.31%, <b>1.6 times as much as the
+                    best future-frame target</b>. Contact alone gains nothing, so the added queries do not by themselves
+                  explain the gain &mdash; it appears only once force is added. A target helps most when it adds what the
+                  image does not show, as force does, rather than repeating what it already shows.
+                </figcaption>
+              </figure>
+
+        <figure class="framed">
+                <div class="scroller">
+                  <img src="./static/images/ablation_design.png"
+                    alt="Three ablation panels: how to represent force, where to place the queries, and how many queries.">
+                </div>
+                <figcaption>
+                  <b>Design choices</b> on &pi;<sub>0</sub> and RoboCasa.
+                  <b>(a)</b> Predicting the same contacts and forces as 3D world-frame points and vectors falls <i>below</i>
+                  the base model, and keeping the direction of the force with one signed map per axis gains 1.91% more than a
+                  single merged map.
+                  <b>(b)</b> Placing the queries in the VLM backbone gains about twice as much as placing them in the action
+                  expert, which suggests they benefit from vision&ndash;language pretraining.
+                  <b>(c)</b> Nine queries work best among the numbers we tried.
+                </figcaption>
+              </figure>
+      </div>
+
+      <!-- ---------- Real world ---------- -->
+      <div class="subsec" id="real-world">
+        <div class="subsec-head">
+          <span class="label">Real world</span>
+          <h3>Ten tasks on real robots, no sensor</h3>
+        </div>
+        <div class="prose">
+          <p>
+            We evaluate on a real Franka Panda and on a bimanual setup of two Franka Pandas, across six single-arm
+            and four bimanual tasks, with <b>no force or tactile sensor</b>. The contact and force maps are
+            pseudo-labels from a labeler trained only in simulation. Grounding Force improves &pi;<sub>0.5</sub> on
+            <b>all ten tasks</b> and raises the average success rate by <b>13.0% on both setups</b>.
+          </p>
+        </div>
+
+        <figure class="framed" style="margin-top: 2.5rem;">
+                <div class="scroller">
+                  <img src="./static/images/real_world.png"
+                    alt="Ten real-world tasks on single-arm and bimanual Franka Panda setups, and the per-task success rates with and without Grounding Force.">
+                </div>
+                <figcaption>
+                  <b>Real-world experiments</b> on one Franka Panda (single arm) and on two (bimanual), without any force or
+                  tactile sensor. <b>(a)</b> The ten tasks, one representative frame each. <b>(b)</b> Success rate (%) of
+                  &pi;<sub>0.5</sub> with and without Grounding Force, over 50 trials per task. As in simulation, the largest
+                  gains are on tasks where the held object must be pressed against another, such as inserting the gear
+                  (+20.0%), setting up the coffee machine and opening the beer bottle.
+                </figcaption>
+              </figure>
+
+        <!-- ░░ SLOT: real-robot rollout videos ░░
+             Drop the clips into static/videos/ and uncomment. The markup mirrors
+             the rollouts section above, so the same player script picks it up if
+             you add data-player and matching tab/panel ids.
+        <figure style="margin-top: 2.5rem;">
+          <video muted loop playsinline controls preload="none"
+                 data-src="./static/videos/real_gear.mp4"></video>
+          <figcaption>Gear insertion.</figcaption>
+        </figure>
+        ░░ END SLOT ░░ -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BIBTEX
+       ============================================================ -->
+  <section id="bibtex">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>BibTeX</h2>
+      </div>
+      <div class="prose">
+        <pre><code>@inproceedings{anonymous2027groundingforce,
+  title     = {Grounding Force: Image-Aligned Contact and Force Prediction
+               for Vision-Language-Action Models},
+  author    = {Anonymous},
+  booktitle = {Submitted to the Fifteenth International Conference on
+               Learning Representations},
+  year      = {2027},
+  note      = {Under review}
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p>
+        This website is licensed under a
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+          Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+      <p>Template inspired by <a href="https://nerfies.github.io">NeRFies</a>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>
