@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;650;700;750;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./static/css/index.css?v=6">
-  <script src="./static/js/app.js?v=6" defer></script>
+  <link rel="stylesheet" href="./static/css/index.css?v=15">
+  <script src="./static/js/app.js?v=15" defer></script>
 </head>
 
 <body>
@@ -377,17 +377,652 @@
                   (+20.0%), setting up the coffee machine and opening the beer bottle.
                 </figcaption>
               </figure>
+      </div>
 
-        <!-- ░░ SLOT: real-robot rollout videos ░░
-             Drop the clips into static/videos/ and uncomment. The markup mirrors
-             the rollouts section above, so the same player script picks it up if
-             you add data-player and matching tab/panel ids.
-        <figure style="margin-top: 2.5rem;">
-          <video muted loop playsinline controls preload="none"
-                 data-src="./static/videos/real_gear.mp4"></video>
-          <figcaption>Gear insertion.</figcaption>
-        </figure>
-        ░░ END SLOT ░░ -->
+      <!-- ---------- Real-world rollouts ----------
+           Selected trials, the same rule for every task: five successes and one
+           failure of + Grounding Force, three of each for the baseline. The clip
+           counts are examples; the measured rate is the badge beside each policy. -->
+      <div class="subsec" id="real-rollouts">
+        <div class="subsec-head">
+          <span class="label">Real world &middot; Rollouts</span>
+          <h3>&pi;<sub>0.5</sub> vs. + Grounding Force on single-arm tasks</h3>
+        </div>
+        <div class="prose" style="margin-bottom: 2rem;">
+          <p>
+            Selected trials on a real Franka Panda at recorded speed. Green and red borders mark successful and
+            failed trials, and the success rate measured over 50 trials is shown beside each policy.
+          </p>
+        </div>
+
+        <div data-rw-tabs>
+          <div class="tabs" role="tablist" aria-label="Choose a real-world task">
+            <button class="tab" type="button" role="tab" id="rwtab-screw" aria-controls="rw-screw"
+              aria-selected="true" tabindex="0">Screwdriver</button>
+            <button class="tab" type="button" role="tab" id="rwtab-coffee" aria-controls="rw-coffee"
+              aria-selected="false" tabindex="-1">Coffee setup</button>
+            <button class="tab" type="button" role="tab" id="rwtab-gear" aria-controls="rw-gear"
+              aria-selected="false" tabindex="-1">Gear insertion</button>
+            <button class="tab" type="button" role="tab" id="rwtab-beer" aria-controls="rw-beer"
+              aria-selected="false" tabindex="-1">Beer bottle</button>
+            <button class="tab" type="button" role="tab" id="rwtab-zipper" aria-controls="rw-zipper"
+              aria-selected="false" tabindex="-1">Bag zipper</button>
+            <button class="tab" type="button" role="tab" id="rwtab-bottle" aria-controls="rw-bottle"
+              aria-selected="false" tabindex="-1">Water bottle</button>
+          </div>
+
+        <div role="tabpanel" id="rw-screw" aria-labelledby="rwtab-screw">
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> baseline</span>
+              <span class="rw-rate">58% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/baseline_s02.webp"
+                  data-src="./static/videos/real/screw/baseline_s02.mp4"
+                  aria-label="Screwdriver, baseline policy, trial 2, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/baseline_s05.webp"
+                  data-src="./static/videos/real/screw/baseline_s05.mp4"
+                  aria-label="Screwdriver, baseline policy, trial 5, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/baseline_s40.webp"
+                  data-src="./static/videos/real/screw/baseline_s40.mp4"
+                  aria-label="Screwdriver, baseline policy, trial 40, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/baseline_f12.webp"
+                  data-src="./static/videos/real/screw/baseline_f12.mp4"
+                  aria-label="Screwdriver, baseline policy, trial 12, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/baseline_f23.webp"
+                  data-src="./static/videos/real/screw/baseline_f23.mp4"
+                  aria-label="Screwdriver, baseline policy, trial 23, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/baseline_f46.webp"
+                  data-src="./static/videos/real/screw/baseline_f46.mp4"
+                  aria-label="Screwdriver, baseline policy, trial 46, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> + Grounding Force</span>
+              <span class="rw-rate">68% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/ours_s11.webp"
+                  data-src="./static/videos/real/screw/ours_s11.mp4"
+                  aria-label="Screwdriver, ours policy, trial 11, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/ours_s12.webp"
+                  data-src="./static/videos/real/screw/ours_s12.mp4"
+                  aria-label="Screwdriver, ours policy, trial 12, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/ours_s13.webp"
+                  data-src="./static/videos/real/screw/ours_s13.mp4"
+                  aria-label="Screwdriver, ours policy, trial 13, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/ours_s14.webp"
+                  data-src="./static/videos/real/screw/ours_s14.mp4"
+                  aria-label="Screwdriver, ours policy, trial 14, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/ours_s05.webp"
+                  data-src="./static/videos/real/screw/ours_s05.mp4"
+                  aria-label="Screwdriver, ours policy, trial 5, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  poster="./static/images/posters/real/screw/ours_f22.webp"
+                  data-src="./static/videos/real/screw/ours_f22.mp4"
+                  aria-label="Screwdriver, ours policy, trial 22, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" id="rw-coffee" aria-labelledby="rwtab-coffee" hidden>
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> baseline</span>
+              <span class="rw-rate">54% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/baseline_s04.webp"
+                  data-src="./static/videos/real/coffee/baseline_s04.mp4"
+                  aria-label="Coffee setup, baseline policy, trial 4, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/baseline_s06.webp"
+                  data-src="./static/videos/real/coffee/baseline_s06.mp4"
+                  aria-label="Coffee setup, baseline policy, trial 6, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/baseline_s16.webp"
+                  data-src="./static/videos/real/coffee/baseline_s16.mp4"
+                  aria-label="Coffee setup, baseline policy, trial 16, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/baseline_f02.webp"
+                  data-src="./static/videos/real/coffee/baseline_f02.mp4"
+                  aria-label="Coffee setup, baseline policy, trial 2, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/baseline_f03.webp"
+                  data-src="./static/videos/real/coffee/baseline_f03.mp4"
+                  aria-label="Coffee setup, baseline policy, trial 3, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/baseline_f11.webp"
+                  data-src="./static/videos/real/coffee/baseline_f11.mp4"
+                  aria-label="Coffee setup, baseline policy, trial 11, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> + Grounding Force</span>
+              <span class="rw-rate">70% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/ours_s01.webp"
+                  data-src="./static/videos/real/coffee/ours_s01.mp4"
+                  aria-label="Coffee setup, ours policy, trial 1, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/ours_s08.webp"
+                  data-src="./static/videos/real/coffee/ours_s08.mp4"
+                  aria-label="Coffee setup, ours policy, trial 8, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/ours_s15.webp"
+                  data-src="./static/videos/real/coffee/ours_s15.mp4"
+                  aria-label="Coffee setup, ours policy, trial 15, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/ours_s25.webp"
+                  data-src="./static/videos/real/coffee/ours_s25.mp4"
+                  aria-label="Coffee setup, ours policy, trial 25, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/ours_s46.webp"
+                  data-src="./static/videos/real/coffee/ours_s46.mp4"
+                  aria-label="Coffee setup, ours policy, trial 46, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/coffee/ours_f07.webp"
+                  data-src="./static/videos/real/coffee/ours_f07.mp4"
+                  aria-label="Coffee setup, ours policy, trial 7, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" id="rw-gear" aria-labelledby="rwtab-gear" hidden>
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> baseline</span>
+              <span class="rw-rate">34% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/baseline_s01.webp"
+                  data-src="./static/videos/real/gear/baseline_s01.mp4"
+                  aria-label="Gear insertion, baseline policy, trial 1, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/baseline_s19.webp"
+                  data-src="./static/videos/real/gear/baseline_s19.mp4"
+                  aria-label="Gear insertion, baseline policy, trial 19, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/baseline_s04.webp"
+                  data-src="./static/videos/real/gear/baseline_s04.mp4"
+                  aria-label="Gear insertion, baseline policy, trial 4, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/baseline_f05.webp"
+                  data-src="./static/videos/real/gear/baseline_f05.mp4"
+                  aria-label="Gear insertion, baseline policy, trial 5, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/baseline_f13.webp"
+                  data-src="./static/videos/real/gear/baseline_f13.mp4"
+                  aria-label="Gear insertion, baseline policy, trial 13, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/baseline_f20.webp"
+                  data-src="./static/videos/real/gear/baseline_f20.mp4"
+                  aria-label="Gear insertion, baseline policy, trial 20, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> + Grounding Force</span>
+              <span class="rw-rate">54% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/ours_s01.webp"
+                  data-src="./static/videos/real/gear/ours_s01.mp4"
+                  aria-label="Gear insertion, ours policy, trial 1, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/ours_s19.webp"
+                  data-src="./static/videos/real/gear/ours_s19.mp4"
+                  aria-label="Gear insertion, ours policy, trial 19, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/ours_s24.webp"
+                  data-src="./static/videos/real/gear/ours_s24.mp4"
+                  aria-label="Gear insertion, ours policy, trial 24, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/ours_s30.webp"
+                  data-src="./static/videos/real/gear/ours_s30.mp4"
+                  aria-label="Gear insertion, ours policy, trial 30, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/ours_s47.webp"
+                  data-src="./static/videos/real/gear/ours_s47.mp4"
+                  aria-label="Gear insertion, ours policy, trial 47, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/gear/ours_f27.webp"
+                  data-src="./static/videos/real/gear/ours_f27.mp4"
+                  aria-label="Gear insertion, ours policy, trial 27, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" id="rw-beer" aria-labelledby="rwtab-beer" hidden>
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> baseline</span>
+              <span class="rw-rate">38% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/baseline_s16.webp"
+                  data-src="./static/videos/real/beer/baseline_s16.mp4"
+                  aria-label="Beer bottle, baseline policy, trial 16, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/baseline_s20.webp"
+                  data-src="./static/videos/real/beer/baseline_s20.mp4"
+                  aria-label="Beer bottle, baseline policy, trial 20, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/baseline_s31.webp"
+                  data-src="./static/videos/real/beer/baseline_s31.mp4"
+                  aria-label="Beer bottle, baseline policy, trial 31, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/baseline_f18.webp"
+                  data-src="./static/videos/real/beer/baseline_f18.mp4"
+                  aria-label="Beer bottle, baseline policy, trial 18, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/baseline_f19.webp"
+                  data-src="./static/videos/real/beer/baseline_f19.mp4"
+                  aria-label="Beer bottle, baseline policy, trial 19, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/baseline_f26.webp"
+                  data-src="./static/videos/real/beer/baseline_f26.mp4"
+                  aria-label="Beer bottle, baseline policy, trial 26, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> + Grounding Force</span>
+              <span class="rw-rate">54% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/ours_s01.webp"
+                  data-src="./static/videos/real/beer/ours_s01.mp4"
+                  aria-label="Beer bottle, ours policy, trial 1, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/ours_s10.webp"
+                  data-src="./static/videos/real/beer/ours_s10.mp4"
+                  aria-label="Beer bottle, ours policy, trial 10, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/ours_s35.webp"
+                  data-src="./static/videos/real/beer/ours_s35.mp4"
+                  aria-label="Beer bottle, ours policy, trial 35, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/ours_s07.webp"
+                  data-src="./static/videos/real/beer/ours_s07.mp4"
+                  aria-label="Beer bottle, ours policy, trial 7, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/ours_s49.webp"
+                  data-src="./static/videos/real/beer/ours_s49.mp4"
+                  aria-label="Beer bottle, ours policy, trial 49, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/beer/ours_f02.webp"
+                  data-src="./static/videos/real/beer/ours_f02.mp4"
+                  aria-label="Beer bottle, ours policy, trial 2, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" id="rw-zipper" aria-labelledby="rwtab-zipper" hidden>
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> baseline</span>
+              <span class="rw-rate">52% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/baseline_s01.webp"
+                  data-src="./static/videos/real/zipper/baseline_s01.mp4"
+                  aria-label="Bag zipper, baseline policy, trial 1, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/baseline_s18.webp"
+                  data-src="./static/videos/real/zipper/baseline_s18.mp4"
+                  aria-label="Bag zipper, baseline policy, trial 18, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/baseline_s26.webp"
+                  data-src="./static/videos/real/zipper/baseline_s26.mp4"
+                  aria-label="Bag zipper, baseline policy, trial 26, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/baseline_f17.webp"
+                  data-src="./static/videos/real/zipper/baseline_f17.mp4"
+                  aria-label="Bag zipper, baseline policy, trial 17, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/baseline_f21.webp"
+                  data-src="./static/videos/real/zipper/baseline_f21.mp4"
+                  aria-label="Bag zipper, baseline policy, trial 21, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/baseline_f24.webp"
+                  data-src="./static/videos/real/zipper/baseline_f24.mp4"
+                  aria-label="Bag zipper, baseline policy, trial 24, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> + Grounding Force</span>
+              <span class="rw-rate">54% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/ours_s02.webp"
+                  data-src="./static/videos/real/zipper/ours_s02.mp4"
+                  aria-label="Bag zipper, ours policy, trial 2, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/ours_s13.webp"
+                  data-src="./static/videos/real/zipper/ours_s13.mp4"
+                  aria-label="Bag zipper, ours policy, trial 13, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/ours_s22.webp"
+                  data-src="./static/videos/real/zipper/ours_s22.mp4"
+                  aria-label="Bag zipper, ours policy, trial 22, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/ours_s36.webp"
+                  data-src="./static/videos/real/zipper/ours_s36.mp4"
+                  aria-label="Bag zipper, ours policy, trial 36, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/ours_s43.webp"
+                  data-src="./static/videos/real/zipper/ours_s43.mp4"
+                  aria-label="Bag zipper, ours policy, trial 43, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/zipper/ours_f06.webp"
+                  data-src="./static/videos/real/zipper/ours_f06.mp4"
+                  aria-label="Bag zipper, ours policy, trial 6, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" id="rw-bottle" aria-labelledby="rwtab-bottle" hidden>
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> baseline</span>
+              <span class="rw-rate">80% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/baseline_s03.webp"
+                  data-src="./static/videos/real/bottle/baseline_s03.mp4"
+                  aria-label="Water bottle, baseline policy, trial 3, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/baseline_s14.webp"
+                  data-src="./static/videos/real/bottle/baseline_s14.mp4"
+                  aria-label="Water bottle, baseline policy, trial 14, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/baseline_s21.webp"
+                  data-src="./static/videos/real/bottle/baseline_s21.mp4"
+                  aria-label="Water bottle, baseline policy, trial 21, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/baseline_f01.webp"
+                  data-src="./static/videos/real/bottle/baseline_f01.mp4"
+                  aria-label="Water bottle, baseline policy, trial 1, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/baseline_f27.webp"
+                  data-src="./static/videos/real/bottle/baseline_f27.mp4"
+                  aria-label="Water bottle, baseline policy, trial 27, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/baseline_f30.webp"
+                  data-src="./static/videos/real/bottle/baseline_f30.mp4"
+                  aria-label="Water bottle, baseline policy, trial 30, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="rw-block">
+            <p class="rw-cond"><span class="rw-name">&pi;<sub>0.5</sub> + Grounding Force</span>
+              <span class="rw-rate">94% success over 50 trials</span>
+            </p>
+            <div class="rw-row">
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/ours_s01.webp"
+                  data-src="./static/videos/real/bottle/ours_s01.mp4"
+                  aria-label="Water bottle, ours policy, trial 1, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/ours_s08.webp"
+                  data-src="./static/videos/real/bottle/ours_s08.mp4"
+                  aria-label="Water bottle, ours policy, trial 8, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/ours_s12.webp"
+                  data-src="./static/videos/real/bottle/ours_s12.mp4"
+                  aria-label="Water bottle, ours policy, trial 12, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/ours_s23.webp"
+                  data-src="./static/videos/real/bottle/ours_s23.mp4"
+                  aria-label="Water bottle, ours policy, trial 23, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-ok">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/ours_s49.webp"
+                  data-src="./static/videos/real/bottle/ours_s49.mp4"
+                  aria-label="Water bottle, ours policy, trial 49, success"></video>
+                <figcaption>Success</figcaption>
+              </figure>
+              <figure class="rw-tile is-bad">
+                <video muted loop playsinline preload="none"
+                  data-poster="./static/images/posters/real/bottle/ours_f13.webp"
+                  data-src="./static/videos/real/bottle/ours_f13.mp4"
+                  aria-label="Water bottle, ours policy, trial 13, fail"></video>
+                <figcaption>Failure</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        </div>
       </div>
     </div>
   </section>
